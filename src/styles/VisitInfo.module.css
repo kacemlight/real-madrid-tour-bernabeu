@@ -1,0 +1,35 @@
+.visitInfo {
+  background-color: #f0f0f0;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.infoCard {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #c60c30;
+}
+
+.infoCard h3 {
+  color: #c60c30;
+  margin-bottom: 15px;
+  font-size: 1.25rem;
+}
+
+.infoCard p {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+}
