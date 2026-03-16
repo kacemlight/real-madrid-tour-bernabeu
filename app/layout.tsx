@@ -1,15 +1,1 @@
-import type { Metadata } from 'next';
-import './globals.css';
-
-export const metadata: Metadata = {
-  title: 'Tour Bernabéu – Visita el Estadio del Real Madrid',
-  description: 'Découvrez l\'histoire et la grandeur du Stade Bernabéu lors d\'une visite guidée.',
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="fr">
-      <body className="bg-white text-gray-900 antialiased">{children}</body>
-    </html>
-  );
-}
+import type { Metadata } from 'next';\nimport './globals.css';\n\nexport const metadata: Metadata = {\n  title: 'Tour Bernabéu - Real Madrid',\n  description: 'Discover the iconic Santiago Bernabéu stadium with our guided tour experience.',\n  viewport: 'width=device-width, initial-scale=1'\n};\n\nexport default function RootLayout({\n  children,\n}: {\n  children: React.ReactNode\n}) {\n  return (\n    <html lang=\"en\">\n      <body className=\"bg-white text-gray-900\">\n        {children}\n      </body>\n    </html>\n  );\n}\n
