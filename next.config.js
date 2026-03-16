@@ -1,0 +1,1 @@
+/** @type {import('next').NextConfig} */\nconst nextConfig = {\n  images: {\n    remotePatterns: [\n      {\n        protocol: 'https',\n        hostname: '**',\n      },\n    ],\n  },\n  eslint: {\n    ignoreDuringBuilds: false,\n  },\n};\n\nmodule.exports = nextConfig;\n
