@@ -1,43 +1,34 @@
-import { getTourBernabeuContent } from '../lib/aem';
-import HeroBanner from '../components/HeroBanner';
-import TourIntro from '../components/TourIntro';
-import Highlights from '../components/Highlights';
-import TicketCategories from '../components/TicketCategories';
-import Gallery from '../components/Gallery';
-import PracticalInfo from '../components/PracticalInfo';
-import FAQ from '../components/FAQ';
-import SiteHeader from '../components/SiteHeader';
-import SiteFooter from '../components/SiteFooter';
+'use client';
 
-export const revalidate = 3600;
+import { HeroSection } from '@/components/HeroSection';
+import { IntroSection } from '@/components/IntroSection';
+import { TicketsSection } from '@/components/TicketsSection';
+import { VisitInfo } from '@/components/VisitInfo';
+import { Gallery } from '@/components/Gallery';
+import { mockTourData } from '@/lib/mockData';
+import Head from 'next/head';
 
-export async function generateMetadata() {
-  const data = await getTourBernabeuContent();
-  return {
-    title: data.pageTitle,
-    description: data.metaDescription,
-    openGraph: {
-      images: data.ogImage?._path ? [data.ogImage._path] : [],
-    },
-  };
-}
-
-export default async function TourBernabeuPage() {
-  const data = await getTourBernabeuContent();
+export default function Home() {
+  const { meta, hero, intro, ticketsSection, visitInfo, gallery } = mockTourData;
 
   return (
     <>
-      <SiteHeader />
-      <main id="main-content">
-        <HeroBanner banner={data.heroBanner} />
-        <TourIntro intro={data.tourIntro} />
-        <Highlights highlights={data.highlights} />
-        <TicketCategories tickets={data.ticketCategories} />
-        <Gallery images={data.galleryImages} />
-        <PracticalInfo info={data.practicalInfo} />
-        <FAQ items={data.faqItems} />
+      <Head>
+        <title>{meta.metaTitle}</title>
+        <meta name="description" content={meta.metaDescription} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content={meta.metaTitle} />
+        <meta property="og:description" content={meta.metaDescription} />
+        <meta property="og:type" content="website" />
+      </Head>
+
+      <main>
+        <HeroSection {...hero} />
+        <IntroSection {...intro} />
+        <TicketsSection {...ticketsSection} />
+        <VisitInfo {...visitInfo} />
+        <Gallery {...gallery} />
       </main>
-      <SiteFooter />
     </>
   );
 }
