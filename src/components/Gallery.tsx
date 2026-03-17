@@ -1,71 +1,42 @@
-'use client';
+/**
+ * Gallery Component
+ * Image gallery grid showcasing stadium photos
+ */
 
-import { useState } from 'react';
 import Image from 'next/image';
-import styles from '@/styles/Gallery.module.css';
-
-interface GalleryImage {
-  src: string;
-  alt: string;
-  caption?: string;
-}
+import { Image as ImageType } from '@/types';
 
 interface GalleryProps {
-  galleryImages: GalleryImage[];
+  images: ImageType[];
 }
 
-export default function Gallery({ galleryImages }: GalleryProps) {
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
-
+export default function Gallery({ images }: GalleryProps) {
   return (
-    <section className={`${styles.gallery} section-padding container`}>
-      <h2 className={styles.galleryTitle}>Galeria del Bernabéu</h2>
-      <div className={styles.galleryGrid}>
-        {galleryImages.map((image, index) => (
-          <div
-            key={index}
-            className={styles.galleryItem}
-            onClick={() => setSelectedImage(index)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                setSelectedImage(index);
-              }
-            }}
-          >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              className={styles.galleryImage}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-            {image.caption && <p className={styles.caption}>{image.caption}</p>}
-          </div>
-        ))}
-      </div>
+    <section className="py-16 md:py-24 px-4 bg-white">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-4xl md:text-5xl font-bold text-center text-black mb-12">
+          Gallery
+        </h2>
 
-      {selectedImage !== null && (
-        <div className={styles.lightbox} onClick={() => setSelectedImage(null)}>
-          <div className={styles.lightboxContent}>
-            <button
-              className={styles.closeButton}
-              onClick={() => setSelectedImage(null)}
-              aria-label="Close lightbox"
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className="relative h-64 md:h-80 rounded-lg overflow-hidden group cursor-pointer"
             >
-              &times;
-            </button>
-            <Image
-              src={galleryImages[selectedImage].src}
-              alt={galleryImages[selectedImage].alt}
-              width={800}
-              height={600}
-              className={styles.lightboxImage}
-            />
-          </div>
+              <Image
+                src={image.url}
+                alt={image.alt}
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-300"
+              />
+              
+              {/* Hover overlay */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+            </div>
+          ))}
         </div>
-      )}
+      </div>
     </section>
   );
 }
