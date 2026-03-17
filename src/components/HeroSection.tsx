@@ -1,24 +1,21 @@
-import Image from 'next/image';
-
-interface HeroSectionProps {
-  title: string;
-  subtitle: string;
-  imageUrl: string;
+import Image from 'next/image'
+interface HeroProps {
+  title: string; subtitle: string; imagePath: string; ctaLabel: string; ctaUrl: string;
 }
-
-export default function HeroSection({ title, subtitle, imageUrl }: HeroSectionProps) {
+export default function HeroSection({ title, subtitle, imagePath, ctaLabel, ctaUrl }: HeroProps) {
   return (
-    <section className="relative w-full h-96 overflow-hidden bg-rm-black">
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-60"
-        style={{
-          backgroundImage: `url('${imageUrl}')`,
-        }}
-      />
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
-        <h1 className="text-5xl font-bold mb-4">{title}</h1>
-        <p className="text-xl text-gray-200">{subtitle}</p>
+    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 bg-black/50 z-10" />
+      <div className="absolute inset-0">
+        <Image src={imagePath} alt={title} fill className="object-cover" priority unoptimized />
+      </div>
+      <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">{title}</h1>
+        <p className="text-xl md:text-2xl mb-10 text-gray-200">{subtitle}</p>
+        <a href={ctaUrl} className="inline-block bg-yellow-400 text-black font-bold py-4 px-10 rounded-full text-lg hover:bg-yellow-300 transition-colors">
+          {ctaLabel}
+        </a>
       </div>
     </section>
-  );
+  )
 }

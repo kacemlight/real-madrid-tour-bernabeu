@@ -1,56 +1,32 @@
 {
-  "tourBernabeuList": {
-    "items": [
-      {
-        "title": "Real Madrid Bernabéu Stadium Tour",
-        "subtitle": "Experience the Home of Champions",
-        "description": "Discover the legendary Bernabéu Stadium with our comprehensive guided tour. Walk through the hallways where legends have walked, visit the dressing rooms, experience the roar of 81,044 fans, and immerse yourself in the rich history of Real Madrid CF. This tour includes access to the pitch, the museum, and exclusive behind-the-scenes areas.",
-        "heroImage": {
-          "_path": "https://images.unsplash.com/photo-1572657893789-e43e7fb8f67c?w=1200&q=80"
-        },
-        "highlights": [
-          "Walk on the famous Bernabéu pitch",
-          "Visit the Real Madrid Museum with trophies and memorabilia",
-          "Explore the player dressing rooms",
-          "See the presidential box and VIP areas",
-          "Experience the tunnel and warm-up zone",
-          "View press conference room",
-          "Learn 120+ years of Real Madrid history",
-          "Guided tour in multiple languages"
-        ],
-        "gallery": [
-          {
-            "_path": "https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=500&q=80",
-            "alt": "Bernabéu Stadium exterior"
-          },
-          {
-            "_path": "https://images.unsplash.com/photo-1520046215041-66d91d2b4e16?w=500&q=80",
-            "alt": "Stadium pitch view"
-          },
-          {
-            "_path": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=500&q=80",
-            "alt": "Trophy display"
-          },
-          {
-            "_path": "https://images.unsplash.com/photo-1524594081293-190066eef9e5?w=500&q=80",
-            "alt": "Stadium corridors"
-          },
-          {
-            "_path": "https://images.unsplash.com/photo-1543351521-5d4e77b4eb10?w=500&q=80",
-            "alt": "VIP seating area"
-          },
-          {
-            "_path": "https://images.unsplash.com/photo-1519504431473-7f85fd50fc94?w=500&q=80",
-            "alt": "Historical memorabilia"
-          }
-        ],
-        "pricing": {
-          "amount": 35,
-          "currency": "EUR"
-        },
-        "duration": "2.5 hours guided tour",
-        "groupSize": "Groups up to 50 people"
-      }
-    ]
-  }
+  "pageTitle": "Tour Bernabéu",
+  "pageSubtitle": "Experience the legend of the most iconic football stadium in the world",
+  "heroImagePath": "https://www.realmadrid.com/img/vertical_thumbnail_sm/2024/01/tour-bernabeu-hero.jpg",
+  "heroCtaLabel": "Book your visit",
+  "heroCtaUrl": "https://www.realmadrid.com/en/visit-bernabeu",
+  "tourHighlights": [
+    { "icon": "🏆", "label": "Museum", "description": "Explore the trophy room and the club's legendary history" },
+    { "icon": "⚽", "label": "Pitch", "description": "Step onto the iconic Bernabéu pitch and feel the magic" },
+    { "icon": "👑", "label": "Presidential Box", "description": "See the exclusive presidential suite and VIP areas" },
+    { "icon": "👕", "label": "Dressing Rooms", "description": "Visit the home and away dressing rooms" },
+    { "icon": "🎙️", "label": "Press Room", "description": "Sit in the official press conference room" },
+    { "icon": "⛪", "label": "Chapel", "description": "The team's private chapel before every match" }
+  ],
+  "galleryImages": [
+    { "path": "https://www.realmadrid.com/img/vertical_thumbnail_sm/2024/01/bernabeu-exterior.jpg", "alt": "Santiago Bernabéu exterior view" },
+    { "path": "https://www.realmadrid.com/img/vertical_thumbnail_sm/2024/01/bernabeu-pitch.jpg", "alt": "The iconic Bernabéu pitch" },
+    { "path": "https://www.realmadrid.com/img/vertical_thumbnail_sm/2024/01/bernabeu-museum.jpg", "alt": "Trophy museum" }
+  ],
+  "ticketTypes": [
+    { "name": "Standard Tour", "price": "€25", "description": "Self-guided audio tour of the stadium at your own pace", "ctaUrl": "https://www.realmadrid.com/en/visit-bernabeu/book-standard" },
+    { "name": "Premium Guided Tour", "price": "€45", "description": "Expert-guided tour with access to exclusive areas", "ctaUrl": "https://www.realmadrid.com/en/visit-bernabeu/book-premium" },
+    { "name": "VIP Experience", "price": "€85", "description": "Full VIP access including Presidential Box and private areas", "ctaUrl": "https://www.realmadrid.com/en/visit-bernabeu/book-vip" }
+  ],
+  "openingHours": "Monday – Saturday: 9:30am – 7:00pm\nSunday & Public Holidays: 10:30am – 6:30pm\nClosed on match days and special events",
+  "locationAddress": "Av. de Concha Espina, 1, 28036 Madrid, Spain",
+  "locationMapUrl": "https://maps.google.com/?q=Santiago+Bernabeu+Stadium+Madrid",
+  "practicalInfo": "Accessible entrance available on the north side of the stadium. Large bags and luggage not permitted. Photography is allowed throughout the tour. The tour takes approximately 90 minutes.",
+  "metaTitle": "Tour Bernabéu | Real Madrid CF — Book Your Visit",
+  "metaDescription": "Discover the iconic Santiago Bernabéu stadium. Explore the trophy museum, pitch, dressing rooms, and more. Book your self-guided or premium guided tour today.",
+  "metaOgImage": "https://www.realmadrid.com/img/vertical_thumbnail_sm/2024/01/tour-bernabeu-og.jpg"
 }
