@@ -1,44 +1,49 @@
-import { HeroSectionProps } from '@/lib/types';
+import React from 'react';
+import Image from 'next/image';
 
-export function HeroSection({
-  heroImageRef,
-  heroImageAlt,
-  pageTitle,
-  pageSubtitle,
-  ctaLabel,
-  ctaUrl
+interface HeroSectionProps {
+  title: string;
+  subtitle: string;
+  backgroundImageUrl: string;
+  ctaButtonText: string;
+  ctaButtonUrl: string;
+}
+
+export default function HeroSection({
+  title,
+  subtitle,
+  backgroundImageUrl,
+  ctaButtonText,
+  ctaButtonUrl,
 }: HeroSectionProps) {
   return (
-    <section
-      className="relative h-96 md:h-screen flex items-center justify-center overflow-hidden"
-      aria-label="Hero Section"
-    >
+    <section className="relative w-full h-screen min-h-96 bg-black overflow-hidden">
       {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('${heroImageRef}')`
-        }}
-        role="img"
-        aria-label={heroImageAlt}
-      />
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0">
+        <Image
+          src={backgroundImageUrl}
+          alt={title}
+          fill
+          className="object-cover"
+          priority
+        />
+        {/* Overlay for text readability */}
+        <div className="absolute inset-0 bg-black/40" />
+      </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
-          {pageTitle}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 sm:px-6 lg:px-8">
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white text-center mb-4 drop-shadow-lg">
+          {title}
         </h1>
-        <p className="text-lg sm:text-xl md:text-2xl mb-8 text-gray-200">
-          {pageSubtitle}
+        <p className="text-xl sm:text-2xl text-gray-200 text-center mb-8 drop-shadow-md max-w-2xl">
+          {subtitle}
         </p>
         <a
-          href={ctaUrl}
-          className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-200"
-          aria-label={ctaLabel}
+          href={ctaButtonUrl}
+          className="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-300"
         >
-          {ctaLabel}
+          {ctaButtonText}
         </a>
       </div>
     </section>
