@@ -1,45 +1,31 @@
-'use client';
-
 import Image from 'next/image';
-import styles from '@/styles/HeroSection.module.css';
 
 interface HeroSectionProps {
-  heroImageRef: string;
-  heroImageAlt: string;
-  pageTitle: string;
-  pageSubtitle: string;
-  ctaLabel: string;
-  ctaUrl: string;
+  title: string;
+  subtitle: string;
+  heroImage: {
+    url: string;
+    alt: string;
+  };
 }
 
-export default function HeroSection({
-  heroImageRef,
-  heroImageAlt,
-  pageTitle,
-  pageSubtitle,
-  ctaLabel,
-  ctaUrl,
-}: HeroSectionProps) {
+export default function HeroSection({ title, subtitle, heroImage }: HeroSectionProps) {
   return (
-    <section className={styles.hero}>
-      <div className={styles.heroImageWrapper}>
-        <Image
-          src={heroImageRef}
-          alt={heroImageAlt}
-          fill
-          priority
-          className={styles.heroImage}
-          sizes="100vw"
-        />
-      </div>
-      <div className={styles.heroOverlay}>
-        <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>{pageTitle}</h1>
-          <p className={styles.heroSubtitle}>{pageSubtitle}</p>
-          <a href={ctaUrl} className={styles.ctaButton}>
-            {ctaLabel}
-          </a>
-        </div>
+    <section className="relative w-full h-96 md:h-screen">
+      <Image
+        src={heroImage.url}
+        alt={heroImage.alt}
+        fill
+        className="object-cover"
+        priority
+      />
+      <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center">
+        <h1 className="text-5xl md:text-6xl font-bold text-rm-white text-center mb-6">
+          {title}
+        </h1>
+        <p className="text-xl md:text-2xl text-rm-gold text-center max-w-2xl">
+          {subtitle}
+        </p>
       </div>
     </section>
   );
