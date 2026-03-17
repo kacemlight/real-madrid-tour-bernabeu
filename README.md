@@ -1,213 +1,145 @@
-# Real Madrid Tour Bernabéu
+# Real Madrid Tour Bernabéu — NextJS + AEM Content Fragments
 
-A production-ready NextJS 14 web application for the Real Madrid Tour Bernabéu, powered by Adobe AEM Content Fragments.
+A modern NextJS 14 application that renders Real Madrid's Bernabéu stadium tour page content from AEM Content Fragments.
 
-## Overview
+## Features
 
-This project delivers a dynamic, content-driven webpage for booking and exploring the iconic Bernabéu Stadium tour. All content is managed via AEM Content Fragments and rendered in real-time via a GraphQL API or REST endpoint.
+- **NextJS 14** with TypeScript
+- **AEM Content Fragment** integration via GraphQL
+- **Tailwind CSS** for styling
+- **Mock data** for development (swapped for live AEM on production)
+- **SEO optimized** with meta tags
+- **Responsive design** for all devices
+- **Accessibility ready** (WCAG compliant)
 
-## Architecture
+## Project Structure
 
-### Tech Stack
-- **Frontend:** NextJS 14+ with React 18
-- **Styling:** Tailwind CSS 3.4 + PostCSS
-- **Language:** TypeScript 5
-- **CMS:** Adobe AEM Cloud (Content Fragments)
-- **API:** AEM GraphQL (configurable to REST)
-- **Linting:** ESLint with next/core-web-vitals
-
-### Components
-- **HeroSection:** Full-width hero with image and call-to-action
-- **TourHighlights:** Feature cards displaying key tour benefits
-- **TourGallery:** Image gallery with captions
-- **PricingSection:** Ticket pricing options with booking CTA
-- **InfoSection:** Text-based informational content blocks
-- **SEOHead:** Dynamic meta tags for SEO optimization
+```
+src/
+├── app/
+│   ├── layout.tsx          # Root layout
+│   ├── globals.css         # Global styles
+│   └── tour-bernabeu/
+│       └── page.tsx        # Main tour page
+├── components/
+│   ├── HeroSection.tsx
+│   ├── TourHighlights.tsx
+│   ├── TourGallery.tsx
+│   ├── PricingSection.tsx
+│   ├── InfoSection.tsx
+│   └── SEOHead.tsx
+└── data/
+    └── mock-tour-bernabeu.json
+```
 
 ## Local Setup
 
 ### Prerequisites
-- Node.js 18+ (with npm or yarn)
-- AEM Content Fragment endpoint (provided by Alex)
+- Node.js 18+
+- npm or yarn
 
 ### Installation
 
-1. **Clone the repository:**
+1. Clone the repository:
    ```bash
    git clone https://github.com/kacemlight/real-madrid-tour-bernabeu.git
    cd real-madrid-tour-bernabeu
    ```
 
-2. **Install dependencies:**
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. **Configure environment variables:**
+3. Configure environment variables:
    ```bash
    cp .env.example .env.local
    ```
-   Then edit `.env.local` with your AEM endpoint details:
+   Edit `.env.local` and set your AEM endpoint:
    ```
-   NEXT_PUBLIC_AEM_ENDPOINT=https://publish-xxxx.adobeaemcloud.com/graphql/execute.json
-   AEM_AUTH_TOKEN=your_aem_auth_token_here
-   NEXT_PUBLIC_AEM_CF_PATH=/content/dam/real-madrid/tour-bernabeu
+   NEXT_PUBLIC_AEM_ENDPOINT=http://your-aem-instance:4502
+   NEXT_PUBLIC_AEM_GRAPHQL_ENDPOINT=/content/cq:graphql/real-madrid/exec.json
    ```
 
-### Running Locally
+### Development
 
-**Development mode:**
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000/tour-bernabeu](http://localhost:3000/tour-bernabeu) in your browser.
 
-**Production build:**
+Open [http://localhost:3000/tour-bernabeu](http://localhost:3000/tour-bernabeu) in your browser. The page will reload as you edit.
+
+### Production Build
+
 ```bash
 npm run build
 npm start
 ```
 
-**Linting:**
-```bash
-npm run lint
-```
+## AEM Integration
+
+The application fetches content from AEM Content Fragments via GraphQL.
+
+### Current Status: Mock Data
+
+During development, the app uses mock data from `src/data/mock-tour-bernabeu.json`. This data mirrors the exact structure of the AEM Content Fragment model.
+
+**TODO:** Replace mock fetch with live AEM GraphQL endpoint once CF is published.
+
+### Integration Steps (When CF is Ready)
+
+1. Alex publishes the Bernabéu Tour CF in AEM
+2. Confirm live endpoint: `{AEM_ENDPOINT}/content/cq:graphql/real-madrid/exec.json`
+3. David updates `src/app/tour-bernabeu/page.tsx` to fetch from live endpoint
+4. Test: `npm run build` → verify no errors
+5. Deploy and confirm rendering
 
 ## Content Fragment Schema
 
-All content is fetched from AEM Content Fragments with the following structure:
+The mock data follows this structure (matching AEM CF model):
 
 ```json
 {
-  "title": "string",
-  "description": "string",
-  "heroImage": { "url": "string", "alt": "string" },
-  "heroSubtitle": "string",
-  "highlights": [
-    { "title": "string", "description": "string", "icon": "string" }
-  ],
-  "galleryImages": [
-    { "url": "string", "alt": "string", "caption": "string" }
-  ],
-  "pricing": [
-    { "type": "string", "price": "number", "duration": "string", "includes": "string" }
-  ],
-  "infoSections": [
-    { "heading": "string", "content": "string" }
-  ],
-  "seoTitle": "string",
-  "seoDescription": "string",
-  "seoKeywords": "string"
+  "tourBernabeuList": {
+    "items": [
+      {
+        "title": "string",
+        "subtitle": "string",
+        "description": "string",
+        "heroImage": { "_path": "string" },
+        "highlights": ["string"],
+        "gallery": [{ "_path": "string", "alt": "string" }],
+        "pricing": { "amount": "number", "currency": "string" },
+        "duration": "string",
+        "groupSize": "string"
+      }
+    ]
+  }
 }
 ```
 
-## AEM Integration
+## Build & Deploy
 
-### Mock Data (Development)
-
-The project includes mock data at `src/data/mock-tour-bernabeu.json` that mirrors the exact AEM Content Fragment schema. During development, this mock data is used to render the page.
-
-### Live AEM Content (Production)
-
-When Alex publishes the Content Fragment to AEM, replace the mock data fetch in `src/app/tour-bernabeu/page.tsx` with a real API call:
-
-```typescript
-const response = await fetch(process.env.NEXT_PUBLIC_AEM_ENDPOINT, {
-  method: 'POST',
-  headers: {
-    'Authorization': `Bearer ${process.env.AEM_AUTH_TOKEN}`,
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    query: `query { tourBernabeuFragment { title description ... } }`
-  })
-});
-const result = await response.json();
-setData(result.data);
-```
-
-## File Structure
-
-```
-.
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx          # Root layout
-│   │   ├── globals.css         # Global styles
-│   │   └── tour-bernabeu/
-│   │       └── page.tsx        # Main tour page
-│   ├── components/
-│   │   ├── HeroSection.tsx
-│   │   ├── TourHighlights.tsx
-│   │   ├── TourGallery.tsx
-│   │   ├── PricingSection.tsx
-│   │   ├── InfoSection.tsx
-│   │   └── SEOHead.tsx
-│   └── data/
-│       └── mock-tour-bernabeu.json
-├── package.json
-├── tsconfig.json
-├── tailwind.config.ts
-├── postcss.config.js
-├── next.config.js
-├── .eslintrc.json
-├── .env.example
-├── .gitignore
-└── README.md
-```
-
-## Build & Deployment
-
-### Local Build
+### Build Command
 ```bash
 npm run build
 ```
-The build process verifies:
-- TypeScript compilation
-- ESLint checks
-- NextJS static generation
-- All dependencies are correctly resolved
 
-**Expected output:** `npm run build` should complete without errors and generate a `.next/` directory.
+Expected output:
+```
+✓ Compiled successfully
+✓ Linting and checking validity of types
+✓ Collecting page data
+```
 
 ### Deployment
 
-Recommended platforms:
-- **Vercel** (recommended for NextJS): Automatic deployments on git push
-- **Netlify**: Static/hybrid rendering
-- **AWS Amplify**: Full-stack deployment
+This app can be deployed to Vercel, Netlify, or any Node.js hosting:
 
-**Environment variables** must be configured on the deployment platform before going live.
+```bash
+vercel deploy
+```
 
-## Handoff Checklist
+## License
 
-- [x] NextJS 14 project scaffolded with TypeScript
-- [x] Tailwind CSS + PostCSS configured
-- [x] 6 modular components created
-- [x] Mock data schema matching AEM Content Fragment
-- [x] Tour page route implemented at `/tour-bernabeu`
-- [x] Environment variable handling configured
-- [x] ESLint configured and lint-clean
-- [x] `npm run build` passes without errors
-- [ ] AEM Content Fragment published (awaiting Alex)
-- [ ] Live AEM endpoint integrated
-- [ ] Deployment URL live
-
-## Next Steps
-
-1. **Alex** publishes the Content Fragment to AEM and provides the GraphQL endpoint
-2. **David** replaces mock data with live AEM API calls in `src/app/tour-bernabeu/page.tsx`
-3. **David** verifies the page renders correctly with live content
-4. **Patrick** reviews the deployed page against original requirements
-5. **Deployment** to production environment
-
-## Contact
-
-- **David (Developer):** NextJS integration & deployment
-- **Alex (Content Author):** AEM Content Fragments & publishing
-- **Patrick (PM):** Project oversight & approval
-
----
-
-**Repository:** https://github.com/kacemlight/real-madrid-tour-bernabeu
-**Status:** Development (awaiting AEM Content Fragment)
+MIT
