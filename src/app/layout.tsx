@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Tour del Bernabéu | Real Madrid',
-  description: 'Experience the iconic Bernabéu Stadium. Book your official Real Madrid tour.',
+  title: 'Real Madrid Tour Bernabéu',
+  description: 'Experience the iconic Bernabéu Stadium with our guided tour',
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-white">{children}</body>
+      <body className="bg-rm-white text-rm-black">{children}</body>
     </html>
   );
 }
