@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
@@ -11,11 +11,9 @@ const config: Config = {
       colors: {
         'rm-white': '#FFFFFF',
         'rm-black': '#000000',
-        'rm-gold': '#FFB81C',
-        'rm-navy': '#0051BA',
+        'rm-gold': '#D4AF37',
       },
     },
   },
   plugins: [],
-}
-export default config
+};

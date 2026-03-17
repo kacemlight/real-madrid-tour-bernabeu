@@ -1,482 +1,213 @@
-# Real Madrid Tour Bernabéu - NextJS Web Application
+# Real Madrid Tour Bernabéu
 
-A production-ready NextJS application that delivers the Real Madrid Tour Bernabéu webpage with content sourced dynamically from Adobe AEM Content Fragments.
+A production-ready NextJS 14 web application for the Real Madrid Tour Bernabéu, powered by Adobe AEM Content Fragments.
 
 ## Overview
 
-This application integrates with Adobe Experience Manager (AEM) to fetch content via GraphQL API and renders a fully responsive, accessible web experience showcasing the iconic Bernabéu Stadium.
+This project delivers a dynamic, content-driven webpage for booking and exploring the iconic Bernabéu Stadium tour. All content is managed via AEM Content Fragments and rendered in real-time via a GraphQL API or REST endpoint.
 
-**Live Site:** [https://www.realmadrid.com/sites/fr/tour-bernabeu](https://www.realmadrid.com/sites/fr/tour-bernabeau)
+## Architecture
 
-## Tech Stack
+### Tech Stack
+- **Frontend:** NextJS 14+ with React 18
+- **Styling:** Tailwind CSS 3.4 + PostCSS
+- **Language:** TypeScript 5
+- **CMS:** Adobe AEM Cloud (Content Fragments)
+- **API:** AEM GraphQL (configurable to REST)
+- **Linting:** ESLint with next/core-web-vitals
 
-- **Framework:** NextJS 14+ with TypeScript
-- **App Router:** Modern NextJS App Router architecture
-- **Styling:** CSS Modules for component-scoped styling
-- **Content Management:** Adobe AEM Content Fragments (GraphQL API)
-- **Image Handling:** NextJS `Image` component for optimization
-- **Build Tools:** SWC (TypeScript/JavaScript compiler)
+### Components
+- **HeroSection:** Full-width hero with image and call-to-action
+- **TourHighlights:** Feature cards displaying key tour benefits
+- **TourGallery:** Image gallery with captions
+- **PricingSection:** Ticket pricing options with booking CTA
+- **InfoSection:** Text-based informational content blocks
+- **SEOHead:** Dynamic meta tags for SEO optimization
 
-## Project Structure
-
-```
-real-madrid-tour-bernabeu/
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx           # Root layout with metadata
-│   │   ├── page.tsx             # Home page (SSG/ISR)
-│   │   ├── head.tsx             # Dynamic head metadata
-│   │   └── globals.css          # Global styles
-│   ├── components/
-│   │   ├── HeroSection.tsx      # Hero banner with CTA
-│   │   ├── IntroSection.tsx     # Introduction and highlights
-│   │   ├── TicketCard.tsx       # Individual ticket component
-│   │   ├── TicketsSection.tsx   # Tickets grid
-│   │   ├── Gallery.tsx          # Image gallery with lightbox
-│   │   └── VisitInfo.tsx        # Visit information section
-│   ├── styles/
-│   │   ├── HeroSection.module.css
-│   │   ├── IntroSection.module.css
-│   │   ├── TicketCard.module.css
-│   │   ├── TicketsSection.module.css
-│   │   ├── Gallery.module.css
-│   │   └── VisitInfo.module.css
-│   └── lib/
-│       └── aem.ts              # AEM GraphQL integration
-├── public/
-├── .env.example                # Environment variables template
-├── next.config.js              # NextJS configuration
-├── tsconfig.json               # TypeScript configuration
-├── .eslintrc.json              # ESLint rules
-└── .prettierrc                 # Code formatting rules
-```
-
-## Content Fragment Schema
-
-The application expects the following Content Fragment structure from AEM:
-
-### TourBernabeuFragment
-
-```
-- heroImage (Reference to DAM asset)
-- title (Text)
-- subtitle (Text)
-- introText (Rich text)
-- highlights (Array of objects)
-  - title (Text)
-  - description (Text)
-- tickets (Array of objects)
-  - name (Text)
-  - price (Decimal)
-  - description (Text)
-  - image (Reference to DAM asset)
-- gallery (Array of objects)
-  - image (Reference to DAM asset)
-  - caption (Text, optional)
-- visitInfo (Object)
-  - openingHours (Text)
-  - address (Text)
-  - accessibility (Text)
-- metaTitle (Text)
-- metaDescription (Text)
-```
-
-## Getting Started
+## Local Setup
 
 ### Prerequisites
-
-- Node.js 18+
-- npm or yarn package manager
-- AEM instance with Content Fragments published (for production)
+- Node.js 18+ (with npm or yarn)
+- AEM Content Fragment endpoint (provided by Alex)
 
 ### Installation
 
 1. **Clone the repository:**
-
    ```bash
    git clone https://github.com/kacemlight/real-madrid-tour-bernabeu.git
    cd real-madrid-tour-bernabeu
    ```
 
 2. **Install dependencies:**
-
    ```bash
    npm install
    ```
 
-3. **Set up environment variables:**
-
+3. **Configure environment variables:**
    ```bash
    cp .env.example .env.local
    ```
-
-   Edit `.env.local` and configure:
-
-   ```env
-   # AEM Content Fragment GraphQL Endpoint
-   AEM_ENDPOINT_URL=https://your-aem-instance.com/api/graphql
-   
-   # AEM Authentication Token (Bearer token)
-   AEM_AUTH_TOKEN=your_bearer_token_here
-   
-   # Optional: Debug mode
-   NEXT_PUBLIC_DEBUG_MODE=false
+   Then edit `.env.local` with your AEM endpoint details:
+   ```
+   NEXT_PUBLIC_AEM_ENDPOINT=https://publish-xxxx.adobeaemcloud.com/graphql/execute.json
+   AEM_AUTH_TOKEN=your_aem_auth_token_here
+   NEXT_PUBLIC_AEM_CF_PATH=/content/dam/real-madrid/tour-bernabeu
    ```
 
-### Local Development
+### Running Locally
 
-**Run the development server:**
-
+**Development mode:**
 ```bash
 npm run dev
 ```
+Open [http://localhost:3000/tour-bernabeu](http://localhost:3000/tour-bernabeu) in your browser.
 
-Open [http://localhost:3000](http://localhost:3000) in your browser. The page will automatically reload when you make changes.
-
-**Features:**
-- Hot Module Replacement (HMR) for instant feedback
-- Mock data used when AEM endpoint is not configured
-- TypeScript type checking enabled
-
-### Building for Production
-
-**Generate an optimized build:**
-
+**Production build:**
 ```bash
 npm run build
-```
-
-This command:
-- Compiles TypeScript to JavaScript
-- Optimizes images and bundles
-- Generates static and dynamic routes
-- Performs full ESLint checking
-
-**Output:**
-```
-✓ Successfully compiled application
-✓ Linting and type checking passed
-✓ Static and dynamic routes generated
-```
-
-**Start the production server:**
-
-```bash
 npm start
 ```
 
-The application will be available at [http://localhost:3000](http://localhost:3000).
-
-### Code Quality
-
-**Run linting:**
-
+**Linting:**
 ```bash
 npm run lint
 ```
 
-**Format code:**
+## Content Fragment Schema
 
-```bash
-npm run format
+All content is fetched from AEM Content Fragments with the following structure:
+
+```json
+{
+  "title": "string",
+  "description": "string",
+  "heroImage": { "url": "string", "alt": "string" },
+  "heroSubtitle": "string",
+  "highlights": [
+    { "title": "string", "description": "string", "icon": "string" }
+  ],
+  "galleryImages": [
+    { "url": "string", "alt": "string", "caption": "string" }
+  ],
+  "pricing": [
+    { "type": "string", "price": "number", "duration": "string", "includes": "string" }
+  ],
+  "infoSections": [
+    { "heading": "string", "content": "string" }
+  ],
+  "seoTitle": "string",
+  "seoDescription": "string",
+  "seoKeywords": "string"
+}
 ```
-
-This uses Prettier to enforce consistent code style across the project.
 
 ## AEM Integration
 
-### API Endpoint Configuration
+### Mock Data (Development)
 
-The application communicates with AEM via GraphQL API. The endpoint and authentication token must be configured as environment variables.
+The project includes mock data at `src/data/mock-tour-bernabeu.json` that mirrors the exact AEM Content Fragment schema. During development, this mock data is used to render the page.
 
-**Supported Scenarios:**
-1. **Development (Mock Data):** If `AEM_ENDPOINT_URL` is not set, the application uses embedded mock data matching the CF schema.
-2. **Staging/Preview:** Uses AEM preview tier for content author review.
-3. **Production:** Uses AEM publish tier for live content delivery.
+### Live AEM Content (Production)
 
-### Fetching Content
-
-The `getContentFragment()` function in `src/lib/aem.ts` handles all AEM communication:
+When Alex publishes the Content Fragment to AEM, replace the mock data fetch in `src/app/tour-bernabeu/page.tsx` with a real API call:
 
 ```typescript
-import { getContentFragment } from '@/lib/aem';
-
-const contentData = await getContentFragment();
-// Returns: ContentFragment interface with all required fields
+const response = await fetch(process.env.NEXT_PUBLIC_AEM_ENDPOINT, {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${process.env.AEM_AUTH_TOKEN}`,
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    query: `query { tourBernabeuFragment { title description ... } }`
+  })
+});
+const result = await response.json();
+setData(result.data);
 ```
 
-### GraphQL Query Example
+## File Structure
 
-```graphql
-query {
-  tourBernabeuFragment {
-    _path
-    title
-    subtitle
-    heroImage {
-      _path
-    }
-    introText
-    highlights {
-      title
-      description
-    }
-    tickets {
-      name
-      price
-      description
-      image {
-        _path
-      }
-    }
-    gallery {
-      image {
-        _path
-      }
-      caption
-    }
-    visitInfo {
-      openingHours
-      address
-      accessibility
-    }
-    metaTitle
-    metaDescription
-  }
-}
+```
+.
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx          # Root layout
+│   │   ├── globals.css         # Global styles
+│   │   └── tour-bernabeu/
+│   │       └── page.tsx        # Main tour page
+│   ├── components/
+│   │   ├── HeroSection.tsx
+│   │   ├── TourHighlights.tsx
+│   │   ├── TourGallery.tsx
+│   │   ├── PricingSection.tsx
+│   │   ├── InfoSection.tsx
+│   │   └── SEOHead.tsx
+│   └── data/
+│       └── mock-tour-bernabeu.json
+├── package.json
+├── tsconfig.json
+├── tailwind.config.ts
+├── postcss.config.js
+├── next.config.js
+├── .eslintrc.json
+├── .env.example
+├── .gitignore
+└── README.md
 ```
 
-### Static Generation and Revalidation (ISR)
+## Build & Deployment
 
-The page is generated as Static Site Generation (SSG) with Incremental Static Regeneration (ISR):
-
-- **Initial Build:** Page is pre-rendered at build time with content from AEM
-- **Revalidation:** Content is automatically refreshed every 1 hour (3600 seconds)
-- **On-Demand:** Can be manually revalidated via webhook trigger
-
-This approach ensures:
-- **Performance:** Instant page loads from cached static content
-- **Freshness:** Content updates automatically within 1 hour
-- **Reliability:** Fallback to previous version if revalidation fails
-
-## Component Documentation
-
-### HeroSection
-Full-width hero banner with background image, title, subtitle, and CTA button.
-
-**Props:**
-```typescript
-{
-  heroImageRef: string;      // URL to hero image
-  heroImageAlt: string;      // Alt text for accessibility
-  pageTitle: string;         // Main heading
-  pageSubtitle: string;      // Subheading
-  ctaLabel: string;          // Button text
-  ctaUrl: string;            // Button link
-}
-```
-
-### IntroSection
-Introduction text followed by a grid of highlight cards.
-
-**Props:**
-```typescript
-{
-  introductionText: string;
-  tourHighlights: Array<{
-    title: string;
-    description: string;
-  }>;
-}
-```
-
-### TicketsSection & TicketCard
-Grid of ticket options with pricing and descriptions.
-
-**TicketsSection Props:**
-```typescript
-{
-  ticketSectionTitle: string;
-  tickets: Array<{
-    ticketName: string;
-    ticketPrice: string;      // e.g., "€25"
-    ticketDescription: string;
-    ticketImageRef: string;   // URL to ticket image
-  }>;
-}
-```
-
-### Gallery
-Responsive image grid with lightbox modal.
-
-**Props:**
-```typescript
-{
-  galleryImages: Array<{
-    src: string;              // Image URL
-    alt: string;              // Alt text
-    caption?: string;         // Optional caption
-  }>;
-}
-```
-
-### VisitInfo
-Three-column grid with opening hours, address, and accessibility information.
-
-**Props:**
-```typescript
-{
-  visitInfoTitle: string;
-  openingHours: string;      // Can include newlines for multiple lines
-  address: string;
-  accessibilityInfo: string;
-}
-```
-
-## Accessibility
-
-The application follows WCAG 2.1 AA standards:
-
-- **Semantic HTML:** Proper use of heading levels, landmarks
-- **Image Alt Text:** All images have descriptive alt attributes
-- **Keyboard Navigation:** Gallery lightbox supports keyboard controls (Enter, Space, Esc)
-- **Color Contrast:** Text meets WCAG contrast requirements
-- **Responsive Design:** Mobile-friendly at all breakpoints
-- **Focus Management:** Proper focus indicators and tab order
-
-## Performance
-
-**Target Metrics:**
-- Core Web Vitals: All green (LCP < 2.5s, FID < 100ms, CLS < 0.1)
-- First Contentful Paint (FCP): < 1.5s
-- Time to Interactive (TTI): < 3.5s
-- Lighthouse Score: > 90
-
-**Optimization Techniques:**
-- NextJS Image component (automatic WebP, lazy loading, responsive sizes)
-- CSS Modules (zero-runtime styling, smaller bundle)
-- Static generation (ISR) for instant page loads
-- Font optimization (system fonts by default)
-- Code splitting via App Router
-
-## Browser Support
-
-- Chrome/Edge 90+
-- Firefox 88+
-- Safari 14+
-- Mobile browsers (iOS Safari 12+, Android Chrome)
-
-## Troubleshooting
-
-### AEM Connection Issues
-
-**Problem:** `Error fetching content fragment`
-
-**Solution:**
-1. Verify `AEM_ENDPOINT_URL` is correct and accessible
-2. Confirm `AEM_AUTH_TOKEN` is a valid Bearer token
-3. Check network connectivity to AEM instance
-4. Review AEM logs for API errors
-5. Ensure Content Fragment is published to target tier
-
-### Image Loading Issues
-
-**Problem:** Images not displaying
-
-**Solution:**
-1. Confirm image URLs are externally accessible
-2. Check image format support (JPEG, PNG, WebP, etc.)
-3. Verify no CORS restrictions on image CDN
-4. Test URL directly in browser
-
-### Build Failures
-
-**Problem:** `npm run build` fails
-
-**Solution:**
-1. Run `npm install` to ensure dependencies are installed
-2. Check for TypeScript errors: `tsc --noEmit`
-3. Run ESLint: `npm run lint`
-4. Clear `.next` directory: `rm -rf .next` then rebuild
-5. Verify Node.js version: `node --version` (need 18+)
-
-## Deployment
-
-### Vercel (Recommended)
-
-The application is optimized for Vercel deployment:
-
+### Local Build
 ```bash
-vercel deploy
+npm run build
 ```
+The build process verifies:
+- TypeScript compilation
+- ESLint checks
+- NextJS static generation
+- All dependencies are correctly resolved
 
-### Docker
+**Expected output:** `npm run build` should complete without errors and generate a `.next/` directory.
 
-**Build:**
-```bash
-docker build -t real-madrid-bernabeu .
-```
+### Deployment
 
-**Run:**
-```bash
-docker run -p 3000:3000 \
-  -e AEM_ENDPOINT_URL=... \
-  -e AEM_AUTH_TOKEN=... \
-  real-madrid-bernabeu
-```
+Recommended platforms:
+- **Vercel** (recommended for NextJS): Automatic deployments on git push
+- **Netlify**: Static/hybrid rendering
+- **AWS Amplify**: Full-stack deployment
 
-### Static Export
+**Environment variables** must be configured on the deployment platform before going live.
 
-For completely static hosting (no server required):
+## Handoff Checklist
 
-1. Update `next.config.js`:
-   ```javascript
-   const nextConfig = {
-     output: 'export',
-     // ... other config
-   };
-   ```
+- [x] NextJS 14 project scaffolded with TypeScript
+- [x] Tailwind CSS + PostCSS configured
+- [x] 6 modular components created
+- [x] Mock data schema matching AEM Content Fragment
+- [x] Tour page route implemented at `/tour-bernabeu`
+- [x] Environment variable handling configured
+- [x] ESLint configured and lint-clean
+- [x] `npm run build` passes without errors
+- [ ] AEM Content Fragment published (awaiting Alex)
+- [ ] Live AEM endpoint integrated
+- [ ] Deployment URL live
 
-2. Build: `npm run build`
-3. Deploy `out/` directory to any static host
+## Next Steps
 
-**Note:** ISR revalidation will not work with static export.
+1. **Alex** publishes the Content Fragment to AEM and provides the GraphQL endpoint
+2. **David** replaces mock data with live AEM API calls in `src/app/tour-bernabeu/page.tsx`
+3. **David** verifies the page renders correctly with live content
+4. **Patrick** reviews the deployed page against original requirements
+5. **Deployment** to production environment
 
-## Contributing
+## Contact
 
-This project follows a structured workflow:
+- **David (Developer):** NextJS integration & deployment
+- **Alex (Content Author):** AEM Content Fragments & publishing
+- **Patrick (PM):** Project oversight & approval
 
-1. **Content Schema First:** Agree on CF model structure before coding
-2. **Component Isolation:** Each component maps 1:1 to CF schema fields
-3. **No Hardcoded Content:** All copy flows from AEM via `getContentFragment()`
-4. **Type Safety:** Full TypeScript coverage, no `any` types
+---
 
-### Code Standards
-
-- Prettier formatting enforced via pre-commit hooks
-- ESLint rules checked in CI/CD pipeline
-- TypeScript strict mode enabled
-- Components use CSS Modules (no global styles in components)
-
-## License
-
-Copyright © 2024 Real Madrid Club de Fútbol. All rights reserved.
-
-## Support
-
-For issues or questions:
-1. Check this README and troubleshooting section
-2. Review GitHub Issues for similar problems
-3. Contact the development team
-
-## Changelog
-
-### v0.1.0 (Initial Release)
-- NextJS 14 scaffolding with TypeScript
-- Component library: Hero, Intro, Tickets, Gallery, VisitInfo
-- AEM GraphQL integration layer
-- Mock data for development
-- CSS Modules styling
-- WCAG 2.1 AA accessibility compliance
-- Performance optimizations (ISR, Image, CSS)
-- Comprehensive documentation
+**Repository:** https://github.com/kacemlight/real-madrid-tour-bernabeu
+**Status:** Development (awaiting AEM Content Fragment)
