@@ -1,33 +1,42 @@
-import styles from '@/styles/IntroSection.module.css';
+/**
+ * IntroSection Component
+ * Introduction section with title, body text, and accompanying image
+ */
 
-interface Highlight {
-  title: string;
-  description: string;
-}
+import Image from 'next/image';
+import { Image as ImageType } from '@/types';
 
 interface IntroSectionProps {
-  introductionText: string;
-  tourHighlights: Highlight[];
+  title: string;
+  body: string;
+  image: ImageType;
 }
 
-export default function IntroSection({
-  introductionText,
-  tourHighlights,
-}: IntroSectionProps) {
+export default function IntroSection({ title, body, image }: IntroSectionProps) {
   return (
-    <section className={`${styles.intro} section-padding container`}>
-      <div className={styles.introContent}>
-        <h2 className={styles.introTitle}>Bienvenido al Bernabéu</h2>
-        <p className={styles.introText}>{introductionText}</p>
-      </div>
-
-      <div className={styles.highlightsGrid}>
-        {tourHighlights.map((highlight, index) => (
-          <div key={index} className={styles.highlightCard}>
-            <h3>{highlight.title}</h3>
-            <p>{highlight.description}</p>
+    <section className="py-16 md:py-24 px-4 bg-white">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          {/* Text Content */}
+          <div>
+            <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
+              {title}
+            </h2>
+            <p className="text-lg text-gray-700 leading-relaxed whitespace-pre-line">
+              {body}
+            </p>
           </div>
-        ))}
+
+          {/* Image */}
+          <div className="relative h-96 md:h-96 rounded-lg overflow-hidden">
+            <Image
+              src={image.url}
+              alt={image.alt}
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
