@@ -1,13 +1,19 @@
-interface Props { title: string; description: string; ogImage: string; }
-export default function SEOHead({ title, description, ogImage }: Props) {
+import Head from 'next/head';
+import { TourBernabeuContent } from '@/types/tour';
+
+interface SEOHeadProps {
+  data: Pick<TourBernabeuContent, 'metaTitle' | 'metaDescription'>;
+}
+
+export default function SEOHead({ data }: SEOHeadProps) {
   return (
-    <>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={ogImage} />
-      <meta name="twitter:card" content="summary_large_image" />
-    </>
-  )
+    <Head>
+      <title>{data.metaTitle}</title>
+      <meta name="description" content={data.metaDescription} />
+      <meta property="og:title" content={data.metaTitle} />
+      <meta property="og:description" content={data.metaDescription} />
+      <meta name="twitter:title" content={data.metaTitle} />
+      <meta name="twitter:description" content={data.metaDescription} />
+    </Head>
+  );
 }
