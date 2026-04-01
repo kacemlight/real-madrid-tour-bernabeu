@@ -1,95 +1,58 @@
-import axios, { AxiosInstance } from 'axios';
-import { TourBernabeuContent, AEMContentFragmentResponse, ApiResponse } from './types';
+import { TourBernabeuContent } from '@/types/TourBernabeuContent';
 
-class AEMClient {
-  private client: AxiosInstance;
-  private publishUrl: string;
-  private fragmentPath: string;
-  private graphqlEndpoint: string;
+interface AEMResponse {
+  data?: {
+    contentFragmentByPath?: TourBernabeuContent;
+  };
+  errors?: Array<{ message: string }>;
+}
 
-  constructor() {
-    this.publishUrl = process.env.NEXT_PUBLIC_AEM_PUBLISH_URL || '';
-    this.fragmentPath = process.env.NEXT_PUBLIC_CF_FRAGMENT_PATH || '';
-    this.graphqlEndpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || '';
+export class AEMClient {
+  private endpoint: string;
+  private apiKey: string;
 
-    this.client = axios.create({
-      baseURL: this.publishUrl,
-      timeout: 10000,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+  constructor(endpoint?: string, apiKey?: string) {
+    this.endpoint = endpoint || process.env.AEM_CF_ENDPOINT || '';
+    this.apiKey = apiKey || process.env.AEM_CF_API_KEY || '';
   }
 
-  /**
-   * Fetch Tour Bernabéu content via GraphQL API
-   */
-  async fetchTourContent(): Promise<ApiResponse<TourBernabeuContent>> {
-    try {
-      if (!this.graphqlEndpoint) {
-        throw new Error('GraphQL endpoint not configured');
-      }
-
-      const query = `
-        query {
-          contentFragmentByPath(path: "${this.fragmentPath}") {
-            pageTitle
-            heroSubtitle
-            heroImageUrl
-            introductionText
-            tourHighlights
-            openingHours
-            ticketPriceAdult
-            ticketPriceChild
-            ticketCtaLabel
-            ticketCtaUrl
-            galleryImages
-            metaDescription
-            metaTitle
-          }
-        }
-      `;
-
-      const response = await this.client.post(this.graphqlEndpoint, { query });
-
-      if (response.data.errors) {
-        throw new Error(`GraphQL Error: ${response.data.errors[0]?.message}`);
-      }
-
-      return {
-        success: true,
-        data: response.data.data.contentFragmentByPath,
-      };
-    } catch (error: any) {
-      console.error('Error fetching tour content from AEM:', error.message);
-      return {
-        success: false,
-        error: error.message,
-      };
+  async fetchTourContent(): Promise<TourBernabeuContent | null> {
+    if (!this.endpoint) {
+      console.warn('AEM_CF_ENDPOINT not configured. Using mock data.');
+      return null;
     }
-  }
 
-  /**
-   * Fetch via REST API (alternative to GraphQL)
-   */
-  async fetchTourContentRest(): Promise<ApiResponse<TourBernabeuContent>> {
     try {
-      const url = `${this.publishUrl}${this.fragmentPath}.json`;
-      const response = await this.client.get(url);
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
 
-      return {
-        success: true,
-        data: response.data,
-      };
-    } catch (error: any) {
-      console.error('Error fetching tour content via REST:', error.message);
-      return {
-        success: false,
-        error: error.message,
-      };
+      if (this.apiKey) {
+        headers['Authorization'] = `Bearer ${this.apiKey}`;
+      }
+
+      const response = await fetch(this.endpoint, {
+        method: 'GET',
+        headers,
+        cache: 'no-store',
+      });
+
+      if (!response.ok) {
+        console.error(`AEM fetch failed: ${response.status} ${response.statusText}`);
+        return null;
+      }
+
+      const data: AEMResponse = await response.json();
+
+      if (data.errors && data.errors.length > 0) {
+        console.error('AEM GraphQL errors:', data.errors);
+        return null;
+      }
+
+      return data.data?.contentFragmentByPath || null;
+    } catch (error) {
+      console.error('Error fetching from AEM:', error);
+      return null;
     }
   }
 }
-
-export const aemClient = new AEMClient();
-export default AEMClient;
