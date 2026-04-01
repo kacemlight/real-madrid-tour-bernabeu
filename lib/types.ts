@@ -1,52 +1,30 @@
-// Types matching AEM Content Fragment schema
-
-export interface PageMeta {
-  metaTitle: string;
-  metaDescription: string;
-}
-
-export interface HeroSectionProps {
-  heroImageRef: string;
-  heroImageAlt: string;
+// Tour Bernabéu Content Schema
+export interface TourBernabeuContent {
   pageTitle: string;
-  pageSubtitle: string;
-  ctaLabel: string;
-  ctaUrl: string;
-}
-
-export interface IntroSectionProps {
+  heroSubtitle: string;
+  heroImageUrl: string;
   introductionText: string;
-  tourHighlights: string[];
-}
-
-export interface TicketCardProps {
-  ticketName: string;
-  ticketPrice: string;
-  ticketDescription: string;
-  ticketImageRef: string;
-}
-
-export interface TicketsSectionProps {
-  ticketSectionTitle: string;
-  tickets: TicketCardProps[];
-}
-
-export interface VisitInfoProps {
-  visitInfoTitle: string;
+  tourHighlights: string;
   openingHours: string;
-  address: string;
-  accessibilityInfo: string;
-}
-
-export interface GalleryProps {
+  ticketPriceAdult: number;
+  ticketPriceChild: number;
+  ticketCtaLabel: string;
+  ticketCtaUrl: string;
   galleryImages: string[];
+  metaDescription: string;
+  metaTitle: string;
 }
 
-export interface TourPageData {
-  meta: PageMeta;
-  hero: HeroSectionProps;
-  intro: IntroSectionProps;
-  ticketsSection: TicketsSectionProps;
-  visitInfo: VisitInfoProps;
-  gallery: GalleryProps;
+// AEM Content Fragment Response Structure
+export interface AEMContentFragmentResponse {
+  data: {
+    contentFragmentByPath: TourBernabeuContent;
+  };
+}
+
+// API Response Wrapper
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
 }
