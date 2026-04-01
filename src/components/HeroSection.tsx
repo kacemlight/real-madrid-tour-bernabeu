@@ -1,21 +1,21 @@
-import Image from 'next/image'
-interface HeroProps {
-  title: string; subtitle: string; imagePath: string; ctaLabel: string; ctaUrl: string;
+import { TourBernabeuContent } from '@/types/tour';
+
+interface HeroSectionProps {
+  data: Pick<TourBernabeuContent, 'pageTitle' | 'heroSubtitle' | 'heroImageUrl'>;
 }
-export default function HeroSection({ title, subtitle, imagePath, ctaLabel, ctaUrl }: HeroProps) {
+
+export default function HeroSection({ data }: HeroSectionProps) {
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-black/50 z-10" />
-      <div className="absolute inset-0">
-        <Image src={imagePath} alt={title} fill className="object-cover" priority unoptimized />
+    <div className="relative w-full h-96 bg-gray-900 overflow-hidden">
+      <img
+        src={data.heroImageUrl}
+        alt={data.pageTitle}
+        className="w-full h-full object-cover opacity-60"
+      />
+      <div className="absolute inset-0 flex flex-col justify-center items-center text-center bg-black bg-opacity-40">
+        <h1 className="text-5xl font-bold text-white mb-4">{data.pageTitle}</h1>
+        <p className="text-xl text-gray-100">{data.heroSubtitle}</p>
       </div>
-      <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">{title}</h1>
-        <p className="text-xl md:text-2xl mb-10 text-gray-200">{subtitle}</p>
-        <a href={ctaUrl} className="inline-block bg-yellow-400 text-black font-bold py-4 px-10 rounded-full text-lg hover:bg-yellow-300 transition-colors">
-          {ctaLabel}
-        </a>
-      </div>
-    </section>
-  )
+    </div>
+  );
 }
