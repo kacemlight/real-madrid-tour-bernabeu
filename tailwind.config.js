@@ -1,1 +1,8 @@
-/** @type {import('tailwindcss').Config} */\nmodule.exports = {\n  content: [\n    './app/**/*.{js,ts,jsx,tsx}',\n    './components/**/*.{js,ts,jsx,tsx}',\n  ],\n  theme: {\n    extend: {\n      colors: {\n        'rm-white': '#FFFFFF',\n        'rm-black': '#000000',\n        'rm-gold': '#FFD700',\n        'rm-navy': '#001A4D',\n      },\n    },\n  },\n  plugins: [],\n};\n
+module.exports = {
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}'
+  ],
+  theme: { extend: {} },
+  plugins: []
+};
